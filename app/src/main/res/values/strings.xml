@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ReplicaLogin</string>
+    <string name="itch_IoLogin">Log in to your itch.io account</string>
+</resources>
