@@ -2,40 +2,62 @@ package com.example.replicalogin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.asFlow
+import com.example.replicalogin.MVVM.ViewModel
+import com.example.replicalogin.body.GitHubLogin
+import com.example.replicalogin.body.LoginCreateForgot
+import com.example.replicalogin.componentes.CampoDeTexto
+import com.example.replicalogin.componentes.ErrorDeCampo
+import com.example.replicalogin.componentes.Separadores
+import com.example.replicalogin.componentes.Texto
+import com.example.replicalogin.footer.Footer
+import com.example.replicalogin.utils.Error
 
-@Preview
+
 @Composable
-fun Login(){
+fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
 
-    Box(
+    val usernameOrEmail = viewModel.usernameOrEmail.asFlow().collectAsState("")
+    val password = viewModel.password.asFlow().collectAsState("")
+    val visible = viewModel.visible.asFlow().collectAsState(false)
+    val errors = viewModel.errors.asFlow().collectAsState(false)
+    val errorList = viewModel.errorList.asFlow().collectAsState(emptyList<Error?>())
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.Fondo))
+            .padding(paddingValues)
+            .verticalScroll(state = rememberScrollState(0)),
     ){
 
         Column(
-            modifier = Modifier.fillMaxWidth()
-        )
-        {
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(R.color.FondoColumna))
+        )  {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -44,28 +66,95 @@ fun Login(){
             ) {
                 Image(painter = painterResource(R.drawable.logoitchio), contentDescription = null, alignment = Alignment.Center)
             }
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(colorResource(R.color.Separadores))
-            )
-            Text(
-                modifier = Modifier
-                    .padding(top = 30.dp, start = 5.dp, bottom = 30.dp),
-                text = stringResource(R.string.itch_IoLogin),
+            Separadores(1)
+            Texto(
+                modifier = Modifier.padding(top = 30.dp, start = 5.dp, bottom = 30.dp),
+                color = colorResource(R.color.ColorTextoTitulos),
                 fontWeight = FontWeight.Bold,
-                fontSize = 23.sp,
-                color = colorResource(R.color.ColorTextoTitulos)
+                fontStyle = FontStyle.Normal,
+                fontSize = 23,
+                text = stringResource(R.string.itch_IoLogin),
+                textDecoration = TextDecoration.None
             )
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-                    .fillMaxWidth()
-                    .background(colorResource(R.color.Separadores))
+            Separadores(1)
+
+            if (errors.value){
+
+                ErrorDeCampo(errorList.value)
+
+            }
+
+            Texto(
+                modifier = Modifier.padding(top = 30.dp, start = 5.dp),
+                color = colorResource(R.color.ColorTextoTitulos),
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Normal,
+                fontSize = 21,
+                text = "Username or email",
+                textDecoration = TextDecoration.None
+            )
+            CampoDeTexto(
+                usernameOrEmail.value,
+                VisualTransformation.None,
+                false,
+                visible.value,
+                { viewModel.onUsernameOrEmailChange(it) }
+            ) {}
+
+
+            Texto(
+                modifier = Modifier.padding(top = 30.dp, start = 5.dp),
+                color = colorResource(R.color.ColorTextoTitulos),
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Normal,
+                fontSize = 21,
+                text = "Password",
+                textDecoration = TextDecoration.None
+            )
+            CampoDeTexto(
+                password.value,
+                PasswordVisualTransformation(),
+                true,
+                visible.value,
+                { viewModel.onPasswordChange(it) }
+            ) {
+                viewModel.onVisibleChange(it)
+            }
+
+            LoginCreateForgot{
+                viewModel.onButtonPressed()
+            }
+
+            Separadores(1)
+
+            Texto(
+                modifier = Modifier.padding(top = 30.dp, start = 5.dp, bottom = 15.dp),
+                color = colorResource(R.color.ColorTextoTitulos),
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Normal,
+                fontSize = 19,
+                text = "Or log in with another site",
+                textDecoration = TextDecoration.None
+            )
+
+            GitHubLogin()
+
+            Separadores(1)
+
+            Texto(
+                modifier = Modifier.padding(start = 5.dp, top = 10.dp, bottom = 10.dp),
+                color = Color.DarkGray,
+                fontWeight = FontWeight.Normal,
+                fontStyle = FontStyle.Normal,
+                fontSize = 17,
+                text = "Looking for something you bought?",
+                textDecoration = TextDecoration.Underline
             )
         }
+        Footer()
     }
-
-
 }
+
+
+
+

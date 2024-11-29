@@ -7,7 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="Fondo">#f4f4f4</color>
+    <color name="FondoColumna">#f4f4f4</color>
+    <color name="Fondo">#e6e6e6</color>
     <color name="Separadores">#e9e9e9</color>
     <color name="ColorTextoTitulos">#383d47</color>
+    <color name="ColorTextFields">#5C1D83</color>
+    <color name="IconosRedesSociales">#8d8d8d</color>
+    <color name="Warning">#ff9500</color>
 </resources>
