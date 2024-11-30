@@ -23,6 +23,8 @@ class ViewModel: IViewModel {
     private val _errors = MutableLiveData<Boolean>()
     override val errors: LiveData<Boolean> = _errors
 
+    private val _validLogin = MutableLiveData<Boolean>()
+    override val validLogin: LiveData<Boolean> = _validLogin
 
     override fun onUsernameOrEmailChange(usernameOrEmail: String) {
         _usernameOrEmail.value = usernameOrEmail
@@ -42,5 +44,9 @@ class ViewModel: IViewModel {
         _errorList.value!!.add(currentError)
         if (!_errorList.value!!.contains(null) && _errorList.value!!.isNotEmpty()) _errors.value = true
         else _errors.value = false
+    }
+
+    override fun setValidLogin() {
+        _validLogin.value = _errors.value?.not()
     }
 }

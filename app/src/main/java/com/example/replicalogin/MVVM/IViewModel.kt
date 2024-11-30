@@ -15,6 +15,8 @@ interface IViewModel {
 
     val errors: LiveData<Boolean>?
 
+    val validLogin : LiveData<Boolean>?
+
 
     fun onUsernameOrEmailChange( usernameOrEmail: String )
 
@@ -23,5 +25,7 @@ interface IViewModel {
     fun onVisibleChange( visible: Boolean )
 
     fun onButtonPressed()
+
+    fun setValidLogin()
 
 }

@@ -27,13 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asFlow
 import com.example.replicalogin.MVVM.ViewModel
 import com.example.replicalogin.body.GitHubLogin
+import com.example.replicalogin.body.GoogleLogin
 import com.example.replicalogin.body.LoginCreateForgot
+import com.example.replicalogin.body.OtherLogins
 import com.example.replicalogin.componentes.CampoDeTexto
 import com.example.replicalogin.componentes.ErrorDeCampo
+import com.example.replicalogin.componentes.LoginValido
 import com.example.replicalogin.componentes.Separadores
 import com.example.replicalogin.componentes.Texto
 import com.example.replicalogin.footer.Footer
-import com.example.replicalogin.utils.Error
 
 
 @Composable
@@ -43,7 +45,8 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
     val password = viewModel.password.asFlow().collectAsState("")
     val visible = viewModel.visible.asFlow().collectAsState(false)
     val errors = viewModel.errors.asFlow().collectAsState(false)
-    val errorList = viewModel.errorList.asFlow().collectAsState(emptyList<Error?>())
+    val errorList = viewModel.errorList.asFlow().collectAsState(emptyList())
+    val validLogin = viewModel.validLogin.asFlow().collectAsState(false)
 
     Column(
         modifier = Modifier
@@ -79,9 +82,12 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
             Separadores(1)
 
             if (errors.value){
-
                 ErrorDeCampo(errorList.value)
-
+            }
+            else{
+                if (validLogin.value){
+                    LoginValido()
+                }
             }
 
             Texto(
@@ -136,8 +142,7 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
                 text = "Or log in with another site",
                 textDecoration = TextDecoration.None
             )
-
-            GitHubLogin()
+            OtherLogins()
 
             Separadores(1)
 
