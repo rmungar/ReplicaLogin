@@ -26,8 +26,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asFlow
 import com.example.replicalogin.MVVM.ViewModel
-import com.example.replicalogin.body.GitHubLogin
-import com.example.replicalogin.body.GoogleLogin
 import com.example.replicalogin.body.LoginCreateForgot
 import com.example.replicalogin.body.OtherLogins
 import com.example.replicalogin.componentes.CampoDeTexto
@@ -38,9 +36,15 @@ import com.example.replicalogin.componentes.Texto
 import com.example.replicalogin.footer.Footer
 
 
+/**
+ * Función Composable que genera una pantalla de inicio de sesión con diversos componentes de interfaz de usuario
+ * y gestión de estados a través de un ViewModel.
+ *
+ * @param viewModel Instancia del ViewModel que maneja el estado del formulario de inicio de sesión.
+ * @param paddingValues Valores de padding aplicados al contenedor principal de la pantalla de inicio de sesión.
+ */
 @Composable
-fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
-
+fun Login(viewModel: ViewModel, paddingValues: PaddingValues) {
     val usernameOrEmail = viewModel.usernameOrEmail.asFlow().collectAsState("")
     val password = viewModel.password.asFlow().collectAsState("")
     val visible = viewModel.visible.asFlow().collectAsState(false)
@@ -54,20 +58,23 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
             .background(colorResource(R.color.Fondo))
             .padding(paddingValues)
             .verticalScroll(state = rememberScrollState(0)),
-    ){
-
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(colorResource(R.color.FondoColumna))
-        )  {
+        ) {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .height(50.dp)
                     .padding(top = 5.dp, bottom = 5.dp)
             ) {
-                Image(painter = painterResource(R.drawable.logoitchio), contentDescription = null, alignment = Alignment.Center)
+                Image(
+                    painter = painterResource(R.drawable.logoitchio),
+                    contentDescription = null,
+                    alignment = Alignment.Center
+                )
             }
             Separadores(1)
             Texto(
@@ -81,11 +88,10 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
             )
             Separadores(1)
 
-            if (errors.value){
+            if (errors.value) {
                 ErrorDeCampo(errorList.value)
-            }
-            else{
-                if (validLogin.value){
+            } else {
+                if (validLogin.value) {
                     LoginValido()
                 }
             }
@@ -107,7 +113,6 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
                 { viewModel.onUsernameOrEmailChange(it) }
             ) {}
 
-
             Texto(
                 modifier = Modifier.padding(top = 30.dp, start = 5.dp),
                 color = colorResource(R.color.ColorTextoTitulos),
@@ -127,7 +132,7 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
                 viewModel.onVisibleChange(it)
             }
 
-            LoginCreateForgot{
+            LoginCreateForgot {
                 viewModel.onButtonPressed()
             }
 
@@ -159,7 +164,3 @@ fun Login(viewModel: ViewModel, paddingValues: PaddingValues){
         Footer()
     }
 }
-
-
-
-

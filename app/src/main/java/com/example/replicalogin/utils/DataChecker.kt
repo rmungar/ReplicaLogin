@@ -1,8 +1,19 @@
 package com.example.replicalogin.utils
 
-import com.example.replicalogin.MVVM.IViewModel
 import com.example.replicalogin.MVVM.ViewModel
 
+/**
+ * Objeto que valida los datos de inicio de sesión ingresados por el usuario.
+ *
+ * Propiedades:
+ * - `USUARIO_PRUEBA`: Nombre de usuario válido para las pruebas.
+ * - `PASSWORD_PRUEBA`: Contraseña válida para las pruebas.
+ *
+ * Métodos:
+ * - `checkData`: Valida los datos de entrada (nombre de usuario o correo y contraseña).
+ *   Devuelve un objeto `Error` con un mensaje específico si los datos no son válidos,
+ *   o `null` si los datos son correctos.
+ */
 object DataChecker {
 
     const val USUARIO_PRUEBA = "Usuario"

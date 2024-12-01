@@ -5,6 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import com.example.replicalogin.utils.Error
 import com.example.replicalogin.utils.DataChecker
 
+/**
+ * Implementación de un ViewModel que maneja el estado y la lógica del formulario de inicio de sesión.
+ * Esta clase proporciona datos observables y métodos para interactuar con el formulario de la UI.
+ *
+ * Propiedades:
+ * - `usernameOrEmail`: Observa el nombre de usuario o correo electrónico ingresado.
+ * - `password`: Observa la contraseña ingresada.
+ * - `visible`: Controla la visibilidad de la contraseña.
+ * - `errorList`: Lista de errores relacionados con el formulario.
+ * - `errors`: Indica si hay errores en el formulario.
+ * - `validLogin`: Indica si el inicio de sesión es válido.
+ *
+ * Métodos:
+ * - `onUsernameOrEmailChange`: Actualiza el nombre de usuario o correo electrónico.
+ * - `onPasswordChange`: Actualiza la contraseña.
+ * - `onVisibleChange`: Alterna la visibilidad de la contraseña.
+ * - `onButtonPressed`: Realiza la validación del formulario y actualiza estados.
+ * - `setValidLogin`: Determina si el inicio de sesión es válido.
+ */
 class ViewModel: IViewModel {
 
 
@@ -44,6 +63,7 @@ class ViewModel: IViewModel {
         _errorList.value!!.add(currentError)
         if (!_errorList.value!!.contains(null) && _errorList.value!!.isNotEmpty()) _errors.value = true
         else _errors.value = false
+        setValidLogin()
     }
 
     override fun setValidLogin() {
